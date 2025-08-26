@@ -1,0 +1,443 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Copy Trading Dashboard</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+  <style>
+    body {
+      background-color: #121212;
+      color: #ffffff;
+      font-size: 0.85rem;
+      font-weight: 400;
+      margin-bottom: 300px;
+      padding-bottom: 50rem; /* ✅ Add more bottom padding */
+      overflow-y: auto;      /* ✅ Enable vertical scroll */
+      overflow-y: scroll;
+      min-height: 100vh;
+    }
+
+    .card {
+      background-color: #1f1f1f;
+      border: none;
+      border-radius: 8px;
+      box-shadow: 0 0 10px rgba(0,0,0,0.5);
+      margin-bottom: 20px;
+      font-size: 0.85rem;
+      font-weight: 400;
+    }
+
+    .btn-green {
+      background-color: #28a745;
+      color: white;
+      font-weight: 400;
+      font-size: 0.75rem;
+    }
+
+    .btn-green:hover {
+      background-color: #218838;
+    }
+
+    .btn-blue {
+      background-color: #007bff;
+      color: white;
+    }
+
+    .replicator-token {
+      background-color: #1a3b73;
+      color: #fff;
+      font-weight: 400;
+      padding: 15px 20px;
+      border-radius: 8px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      font-size: 0.85rem;
+    }
+
+    .btn-cyan {
+      background-color: #00e5ff;
+      color: black;
+      font-weight: 400;
+      font-size: 0.75rem;
+    }
+
+    .btn-cyan:hover {
+      background-color: #00bcd4;
+    }
+
+    input.form-control {
+      background-color: #2b2b2b;
+      color: white;
+      border: 1px solid #444;
+      font-size: 0.85rem;
+      font-weight: 400;
+    }
+
+    h5, h6 {
+      color: #e0e0e0;
+      font-size: 1rem;
+      font-weight: 400;
+    }
+
+    small.text-muted {
+      color: #aaa !important;
+      font-size: 0.75rem;
+      font-weight: 400;
+    }
+
+    .top-bar {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 1rem;
+    }
+
+    .youtube-icon img {
+      width: 32px;
+      height: 32px;
+      filter: drop-shadow(0 0 5px rgba(255,0,0,0.7));
+    }
+
+    .youtube-icon div {
+      font-size: 0.65rem;
+      color: #ccc;
+      text-align: center;
+    }
+
+    .status-msg {
+      color: green;
+      opacity: 0;
+      transform: translateY(-10px);
+      transition: opacity 0.3s ease, transform 0.3s ease;
+      margin: 4px 0 0;
+      display: block;
+      font-size: 0.75rem;
+      font-weight: 700;
+    }
+
+    .status-msg.show {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    #tokenTable {
+      color: white;
+    }
+
+    #tokenTable .delete-btn {
+      color: red;
+      cursor: pointer;
+      font-weight: bold;
+    }
+
+
+
+  </style>
+</head>
+<body class="p-4">
+
+  <div class="top-bar">
+    <button id="copy-trading-btn" class="btn btn-green">Start Demo to Real Copy Trading</button>
+    <div class="youtube-icon">
+      <img src="https://img.icons8.com/ios-filled/50/fa314a/youtube-play.png" alt="Tutorial">
+      <div>Tutorial</div>
+    </div>
+  </div>
+
+  <div class="replicator-token mb-3">
+    <span>
+      <h5 id="login-id">---</h5>
+      <p id="status-msg" class="status-msg">Demo to real set successfully</p>
+    </span>
+    <span id="bal-id" style="color: gold;">0.00 USD</span>
+  </div>
+
+  <h5>Add tokens to Replicator</h5>
+
+  <div class="card p-3">
+    <div class="input-group mb-2">
+      <input id="tokenInput" type="text" class="form-control" placeholder="Enter Client token">
+      <button id="start-token" class="btn btn-green">Start Copy Trading</button>
+    </div>
+    <div class="d-flex gap-2">
+      <button id="btn-add" class="btn btn-cyan">Add</button>
+      <button id="btn-refresh" class="btn btn-cyan">Sync &#x21bb;</button>
+      <img src="https://img.icons8.com/ios-filled/24/fa314a/youtube-play.png" alt="yt" style="filter: drop-shadow(0 0 4px rgba(255,0,0,0.6));">
+    </div>
+    <p id="status-msg2" class="status-msg">Demo to real set successfully</p>
+  </div>
+
+  <div class="card p-3">
+    <h6 id="tokens-num">Total Clients added: 0</h6>
+    <small id="no-tokens" class="text-muted"></small>
+    <table id="tokenTable">
+          <thead>
+            <tr>
+              <th>Token</th>
+              <th>Remove</th>
+            </tr>
+          </thead>
+          <tbody></tbody>
+        </table>
+  </div>
+
+  <script type="text/javascript">
+    const btn = document.getElementById('copy-trading-btn');
+    const btnStart = document.getElementById('start-token');
+
+    //demo to real
+    const statusMsg = document.getElementById('status-msg');
+    btn.addEventListener('click', () => {
+        const isStart = btn.textContent.includes('Start');
+
+        let accounts_list = JSON.parse(localStorage.getItem('accountsList')) || {};
+        if (isStart) {
+            const keys = Object.keys(accounts_list);
+            const key = keys[0];
+            if (keys.length > 0 && !key.startsWith("VR")) {
+              const value = accounts_list[key];
+              let storedArray = JSON.parse(localStorage.getItem('copyTokensArray')) || [];
+              storedArray.push(value);
+              localStorage.setItem('copyTokensArray', JSON.stringify(storedArray));
+              
+              localStorage.setItem('demo_to_real', true);
+
+              btn.textContent = 'Stop Demo to Real Copy Trading';
+              btn.style.backgroundColor = 'red';
+              statusMsg.textContent = "Demo to real set successfully";
+              statusMsg.style.color = "green";
+            }
+            else {
+              alert('no real account found!');
+            }
+        } else {
+            const keys = Object.keys(accounts_list);
+            const key = keys[0];
+            const value = accounts_list[key]; console.log(key, value)
+            let storedArray = JSON.parse(localStorage.getItem('copyTokensArray')) || [];
+            storedArray = storedArray.filter(token => token !== value);
+            localStorage.setItem('copyTokensArray', JSON.stringify(storedArray));
+            localStorage.setItem('demo_to_real', false);
+
+            btn.textContent = 'Start Demo to Real Copy Trading';
+            btn.style.backgroundColor = '';
+            statusMsg.textContent = "Stopped successfully";
+            statusMsg.style.color = "red";
+        }
+
+        renderTable(); 
+
+        // Re-trigger the animation
+        statusMsg.classList.remove('show');
+        void statusMsg.offsetWidth; // Force reflow
+        statusMsg.classList.add('show');
+
+        // Hide after 3 seconds
+        setTimeout(() => {
+            statusMsg.classList.remove('show');
+        }, 2000);
+    });
+
+    //start copy
+    const statusMsg2 = document.getElementById('status-msg2');
+    btnStart.addEventListener('click', () => {
+        const isStart = btnStart.textContent.includes('Start');
+        if (isStart) {
+            localStorage.setItem('iscopyTrading', true);
+            btnStart.textContent = 'Stop Copy Trading';
+            btnStart.style.backgroundColor = 'red';
+            statusMsg2.textContent = "Copy trading started successfully";
+            statusMsg2.style.color = "green";
+        } else {
+            localStorage.setItem('iscopyTrading', false);
+            btnStart.textContent = 'Start Copy Trading';
+            btnStart.style.backgroundColor = '';
+            statusMsg2.textContent = "Copy trading Stopped successfully";
+            statusMsg2.style.color = "red";
+        }
+
+        // Re-trigger the animation
+        statusMsg2.classList.remove('show');
+        void statusMsg2.offsetWidth; // Force reflow
+        statusMsg2.classList.add('show');
+
+        // Hide after seconds
+        setTimeout(() => {
+            statusMsg2.classList.remove('show');
+        }, 2000);
+    });
+
+    //add tokens
+    const btnAdd = document.getElementById('btn-add');
+    btnAdd.addEventListener('click', () => {
+        const tokenInput = document.getElementById('tokenInput');
+        if (tokenInput) {
+          const the_new = tokenInput.value.trim();
+          const storedArray = JSON.parse(localStorage.getItem('copyTokensArray')) || [];
+          var msgg;
+          if (storedArray.includes(the_new)) {
+              msgg = 'token already exists';
+              statusMsg2.style.color = "red";
+          } else {
+              storedArray.push(tokenInput);
+              localStorage.setItem('copyTokensArray', JSON.stringify(storedArray));
+
+              msgg = 'token has been added';
+              statusMsg2.style.color = "green";
+          }
+
+          statusMsg2.textContent = msgg;
+          statusMsg2.classList.remove('show');
+          void statusMsg2.offsetWidth; // Force reflow
+          statusMsg2.classList.add('show');
+
+          // Hide after seconds
+          setTimeout(() => {
+              statusMsg2.classList.remove('show');
+          }, 2000);
+
+          renderTable();
+        }
+    });
+
+    //refresh tokens
+    const btnRef = document.getElementById('btn-refresh');
+    btnRef.addEventListener('click', () => {
+        renderTable();
+    });
+
+    const tokenTableBody = document.querySelector('#tokenTable tbody');
+    function renderTable() {
+      let isdemo_toreal = localStorage.getItem('demo_to_real');
+      if (isdemo_toreal === 'true' | isdemo_toreal === true) {
+        btn.textContent = 'Stop Demo to Real Copy Trading';
+        btn.style.backgroundColor = 'red';
+      }
+
+      let iscopyTrading = localStorage.getItem('iscopyTrading');
+      if (iscopyTrading === 'true' | isdemo_toreal === true) {
+        btnStart.textContent = 'Stop Copy Trading';
+        btnStart.style.backgroundColor = 'red';
+      }
+
+      const sArray = JSON.parse(localStorage.getItem('copyTokensArray')) || [];
+      document.getElementById('no-tokens').textContent = '';
+      if (!sArray | sArray.length === 0) {
+        document.getElementById('no-tokens').textContent = 'No tokens added yet';
+      }
+      let num = sArray.length;
+      document.getElementById('tokens-num').textContent = 'Total Clients added: ' + num;
+
+
+      let tokens = JSON.parse(localStorage.getItem('copyTokensArray')) || [];
+      tokenTableBody.innerHTML = ''; // Clear table first
+      tokens.forEach((token, index) => {
+        const row = document.createElement('tr');
+
+        const tokenCell = document.createElement('td');
+        tokenCell.textContent = token;
+        row.appendChild(tokenCell);
+
+        const actionCell = document.createElement('td');
+        const deleteBtn = document.createElement('span');
+        deleteBtn.textContent = 'X';
+        deleteBtn.classList.add('delete-btn');
+        deleteBtn.onclick = () => {
+          tokens.splice(index, 1);
+          localStorage.setItem('copyTokensArray', JSON.stringify(tokens));
+          renderTable();
+          showMessage('token removed!')
+        };
+        actionCell.appendChild(deleteBtn);
+        row.appendChild(actionCell);
+
+        tokenTableBody.appendChild(row);
+      });
+    }
+    renderTable();
+
+    function webSS() {
+        var APP_ID = localStorage.getItem('APP_ID');
+        let accounts_list = JSON.parse(localStorage.getItem('accountsList')) || {};
+        const keys = Object.keys(accounts_list);
+        let tokenz = [];
+        for (let i = 0; i < keys.length; i++) {
+          const key = keys[i];
+          const value = accounts_list[key];
+          tokenz.push(value);
+        }
+        let ws1 = new WebSocket('wss://ws.binaryws.com/websockets/v3?app_id=' + APP_ID)
+            
+        ws1.addEventListener("open", () => {
+            authorize();
+        });
+
+        ws1.addEventListener("close", (eve) => {
+            //console.dir(eve);
+        });
+
+        ws1.addEventListener("error", (err) => {
+            //console.dir(err);
+        });
+
+        ws1.addEventListener('message', function(data) { 
+            let ms = JSON.parse(data.data);
+
+            let req = ms.echo_req;
+            var req_id = req.req_id;
+            const error = ms.error;
+            if (error) {
+              console.log(ms)
+            }
+            else {
+              if (req_id === 2111) {
+                  const list = ms.authorize.account_list;
+                  for (var i = 0; i < list.length; i++) {
+                    const cur = list[i].currency;
+                    const is_virtual = list[i].is_virtual;
+                    const currency_type = list[i].currency_type;
+                    if (currency_type === 'fiat' && is_virtual === 0) {
+                      const loginid = list[i].loginid;
+                      document.getElementById('login-id').textContent = loginid;
+                      
+                      getBalance(loginid);
+                      break;
+                    }
+                  }
+              }
+
+              if (req_id === 2112) {
+                  const balance = ms.balance.balance;
+                  const currency = ms.balance.currency;
+                  document.getElementById('bal-id').textContent = balance + ' ' + currency;
+              }
+            }
+        });
+
+        function authorize() {
+            const msg = JSON.stringify({
+                authorize: 'MULTI',
+                tokens: tokenz,
+                req_id: 2111
+            });
+            if (ws1.readyState !== WebSocket.CLOSED) {
+                ws1.send(msg);
+            }
+        }
+        function getBalance(loginid) {
+            const msg = JSON.stringify({
+                balance: 1,
+                loginid: loginid,
+                req_id: 2112
+            });
+            if (ws1.readyState !== WebSocket.CLOSED) {
+                ws1.send(msg);
+            }
+        }
+    }
+    webSS();
+
+  </script>
+</body>
+</html>

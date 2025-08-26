@@ -1,0 +1,208 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Signal Trader Dark</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600&display=swap" rel="stylesheet">
+  <style>
+    body {
+      margin: 0;
+      font-family: 'Inter', sans-serif;
+      background-color: #121212;
+      color: #f0f0f0;
+      font-size: 14px;
+    }
+
+    .container {
+      padding: 20px;
+      max-width: 1000px;
+      margin: auto;
+    }
+
+    .btn-group {
+      display: flex;
+      gap: 10px;
+      margin-bottom: 20px;
+    }
+
+    .btn-group button {
+      flex: 1;
+      background: #1f1f1f;
+      color: white;
+      border: 1px solid #444;
+      padding: 10px;
+      cursor: pointer;
+      font-size: 14px;
+      transition: box-shadow 0.3s;
+    }
+
+    .btn-group button.active {
+      border-color: #FFFF00;
+      box-shadow: 0 0 8px #FFFF00;
+    }
+
+    .card {
+      background: #1e1e1e;
+      border: 1px solid #333;
+      border-radius: 10px;
+      padding: 15px;
+      margin-bottom: 20px;
+      box-shadow: 0 0 5px #FFFF00;
+    }
+
+    .card .title {
+      font-weight: bold;
+      margin-bottom: 10px;
+      color: #FFFF00;
+    }
+
+    .progress-bar {
+      background-color: #333;
+      border-radius: 5px;
+      overflow: hidden;
+      height: 5px;
+      margin-top: 5px;
+    }
+
+    .progress {
+      background-color: #FFFF00;
+      width: 0%;
+      height: 100%;
+      transition: width 0.1s linear;
+    }
+
+    .form-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 10px;
+      margin-top: 10px;
+    }
+
+    input, select {
+      padding: 8px;
+      background-color: #2c2c2c;
+      color: white;
+      border: 1px solid #444;
+      border-radius: 5px;
+      font-size: 13px;
+      box-shadow: 0 0 4px #FFFF00;
+    }
+
+    input:focus, select:focus {
+      outline: none;
+      box-shadow: 0 0 6px #FFFF00;
+    }
+
+    .form-grid strong {
+      font-weight: 300;
+      color: #ccc;
+    }
+
+    button.run {
+      background: linear-gradient(to right, #ffb347, #FFFF00);
+      border: none;
+      color: #121212;
+      font-weight: 600;
+      padding: 12px 20px;
+      border-radius: 8px;
+      margin-top: 10px;
+      font-size: 14px;
+      cursor: pointer;
+      box-shadow: 0 0 15px #FFFF00;
+      transition: transform 0.2s ease, box-shadow 0.2s ease;
+    }
+
+    button.run:hover {
+      transform: scale(1.05);
+      box-shadow: 0 0 20px #FFFF00;
+    }
+
+    .stats, .transactions {
+      display: flex;
+      justify-content: space-between;
+      gap: 20px;
+    }
+
+    .stats .card, .transactions .card {
+      flex: 1;
+    }
+
+    .clear-btn {
+      float: right;
+      background: #333;
+      color: white;
+      border: none;
+      cursor: pointer;
+      padding: 5px 10px;
+      border-radius: 5px;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <div class="btn-group">
+      <button>Over <span>(2)</span></button>
+      <button>Under <span>(8)</span></button>
+      <button>Rise & Fall</button>
+      
+    </div>
+
+    <div class="card">
+      <div class="title">Next Signal in <span id="countdown">2:00</span> <span style="float: right">left</span></div>
+      <div class="progress-bar">
+        <div class="progress" id="progress"></div>
+      </div>
+      <div class="form-grid">
+        <div><strong>Market</strong><br /><span id="market-name">...</span></div>
+        <div><strong>Entry Point</strong><br /><span id="entry-point">...</span></div>
+        <div><strong>Recommended Ticks</strong><br /><span id="recommended-ticks">...</span></div>
+        <div><strong>Prediction</strong><br /><span id="prediction">...</span></div>
+        <div><strong>Signal Duration</strong><br /><span id="signal-duration">2:00</span></div>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="title">Signal Trader</div>
+      <select id="market-select">
+  <option value="R_10">Volatility 10 Index</option>
+  <option value="R_25">Volatility 25 Index</option>
+  <option value="R_50">Volatility 50 Index</option>
+  <option value="R_75">Volatility 75 Index</option>
+  <option value="R_100">Volatility 100 Index</option>
+  <option value="R_150">Volatility 150 Index</option>
+  <option value="R_200">Volatility 200 Index</option>
+  <option value="R_250">Volatility 250 Index</option>
+  <option value="R_300">Volatility 300 Index</option>
+  <option value="R_75e">Volatility 75 (1s) Index</option>
+</select>
+
+      <div class="form-grid">
+        <input type="number" placeholder="Stake" value="2">
+        <input type="text" placeholder="Tick Duration">
+        <input type="text" placeholder="Entry Point">
+        <input type="text" placeholder="Prediction">
+      </div>
+      <br />
+      <button class="run">Run Trader</button>
+    </div>
+
+    <div class="transactions stats">
+      <div class="card">
+        <div class="title">Transactions <button class="clear-btn">Clear</button></div>
+        <!-- Transactions list here -->
+      </div>
+
+      <div class="card">
+        <div class="title">Overall Stats</div>
+        <p>No. of trades: <strong>0</strong></p>
+        <p>Wins: <strong style="color: green">0</strong></p>
+        <p>Losses: <strong style="color: red">0</strong></p>
+        <p>P/L: <strong style="color: #FFFF00">0.00 USD</strong></p>
+      </div>
+    </div>
+  </div>
+
+  <script src="js/signal.js"></script>
+</body>
+</html>

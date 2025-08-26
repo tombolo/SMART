@@ -1,0 +1,324 @@
+<!-- slider.html -->
+<style>
+    .table-container {
+      width: 100%;
+      margin-top: 1rem;
+      border-radius: 0 0 5px 5px;
+      overflow: hidden;
+      box-shadow: 0 0 5px 0px orange;
+      max-height: 420px; /* Set fixed height */
+      min-height: 420px; /* Set fixed height */
+      overflow-y: auto;  /* Scroll vertically when content overflows */
+    }
+
+    /* Optional: make the thead fixed */
+    thead th {
+      position: sticky;
+      top: 0;
+      background-color: orange;
+      color: white;
+      z-index: 2;
+    }
+
+
+    table {
+      width: 100%;
+      border-collapse: separate;
+      background-color: #1f1f1f;
+      border: 1px solid #333;
+      font-size: 0.8rem;
+    }
+
+    th, td {
+      padding: 0.5rem;
+      text-align: left;
+      border-bottom: 1px solid #333;
+    }
+
+    th {
+      background-color: orange;
+      color: white;
+    }
+</style>
+<div id="slider-content">
+  <!-- Header -->
+  <div class="slider-header">
+    <div class="slider-controls rounded no-border">
+      <button id="run-button">
+        <span id="button-icon"></span>
+      </button>
+      <div class="progress-container with-margin dark-background">
+        <div class="progress-wrapper">
+          <div id="bot-status" class="above-progress">Bot is not running</div>
+          <div class="progress-line-background"></div>
+          <div class="progress-line"></div>
+          <div id="dot1" class="dot"></div>
+          <div id="dot2" class="dot"></div>
+          <div id="dot3" class="dot"></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="divider"></div>
+
+    <!-- Description -->
+  <div class="table-container">
+      <table>
+        <thead>
+          <tr>
+            <th>Time</th>
+            <th>Asset</th>
+            <th>Stake</th>
+            <th>Payout</th>
+          </tr>
+        </thead>
+        <tbody id="bot-table-body">
+          <!-- Data will be injected here -->
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <!-- Footer Stats -->
+  <div class="slider-footer">
+    <div class="stats-grid">
+      <div class="stat-box glow-box">
+        <span class="label">Total stake</span><br>
+        <b id="tstake" class="stat-value">0.00 USD</b>
+      </div>
+      <div class="stat-box glow-box">
+        <span class="label">Total payout</span><br>
+        <b id="tpayout" class="stat-value">0.00 USD</b>
+      </div>
+      <div class="stat-box glow-box">
+        <span class="label">No. of runs</span><br>
+        <b id="truns" class="stat-value">0</b>
+      </div>
+      <div class="stat-box glow-box">
+        <span class="label">Contracts lost</span><br>
+        <b id="tlost" class="stat-value">0</b>
+      </div>
+      <div class="stat-box glow-box">
+        <span class="label">Contracts won</span><br>
+        <b id="twon" class="stat-value">0</b>
+      </div>
+      <div class="stat-box glow-box">
+        <span class="label">Total profit/loss</span><br>
+        <b id="tploss" class="stat-value">0.00 USD</b>
+      </div>
+    </div>
+    <div class="reset-button-container">
+      <button class="reset-button full-width no-border">Reset</button>
+    </div>
+  </div>
+</div>
+
+<style>
+  body, #slider-content {
+    font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+  }
+
+  #slider-content {
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    background-color: #1e1e1e;
+    border-right: 1px solid #333;
+    box-shadow: 2px 0 5px rgba(255,165,0,0.2);
+    overflow: hidden;
+    color: #fff;
+  }
+
+  .slider-header {
+    padding: 10px;
+    flex-grow: 1;
+    display: flex;
+    flex-direction: column;
+  }
+
+  .slider-controls {
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+    gap: 20px;
+    margin-bottom: 20px;
+    padding: 6px;
+    border-radius: 999px;
+    background-color: rgba(255,165,0,0.1);
+    box-shadow: 0 0 2px orange;
+  }
+
+  .slider-controls.no-border {
+    border: none;
+  }
+
+  #run-button {
+    background-color: orange;
+    width: 30px;
+    height: 30px;
+    border: none;
+    border-radius: 50%;
+    box-shadow: 0 0 10px orange;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  #button-icon {
+    display: inline-block;
+    width: 0;
+    height: 0;
+    border-top: 4px solid transparent;
+    border-bottom: 4px solid transparent;
+    border-left: 8px solid black;
+  }
+
+  .progress-container {
+    flex-grow: 1;
+    position: relative;
+    height: auto;
+  }
+
+  .with-margin {
+    margin-right: 40px;
+  }
+
+  .dark-background {
+    background-color: #2a2a2a;
+    border-radius: 8px;
+    padding: 12px 8px 4px;
+  }
+
+  .progress-wrapper {
+    position: relative;
+    height: 6px;
+    margin-top: 12px;
+  }
+
+  .progress-line-background {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    height: 1px;
+    background-color: #555;
+    border-radius: 1px;
+    width: 100%;
+    z-index: 0;
+  }
+
+  .progress-line {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    height: 1px;
+    background-color: orange;
+    border-radius: 1px;
+    width: 0%;
+    z-index: 1;
+  }
+
+  .dot {
+    position: absolute;
+    bottom: 0;
+    transform: translate(-50%, 50%);
+    height: 6px;
+    width: 6px;
+    background-color: #666;
+    border-radius: 50%;
+    z-index: 2;
+  }
+
+  .dot.glow {
+    box-shadow: 0 0 8px 4px orange;
+  }
+
+  #dot1 { left: 0; }
+  #dot2 { left: 50%; }
+  #dot3 { left: 100%; }
+
+  #bot-status.above-progress {
+    position: absolute;
+    top: -18px;
+    left: 50%;
+    transform: translateX(-50%);
+    text-align: center;
+    font-weight: bold;
+    color: #ffcc99;
+    font-size: 12px;
+    z-index: 3;
+  }
+
+  .divider {
+    border-bottom: 1px solid #444;
+    margin: 10px 0;
+  }
+
+  .description {
+    flex-grow: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    font-size: 12px;
+    color: #ddd;
+  }
+
+  .highlight {
+    color: orange;
+  }
+
+  .small {
+    font-size: 11px;
+    display: inline-block;
+    margin-top: 2px;
+  }
+
+  .slider-footer {
+    padding: 10px;
+    border-top: 1px solid #444;
+    background: #2a2a2a;
+  }
+
+  .stats-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    row-gap: 15px;
+    column-gap: 10px;
+    text-align: center;
+    font-size: 12px;
+    color: #ccc;
+  }
+
+  .stat-box {
+    border: none;
+    border-radius: 2px;
+    padding: 10px;
+    box-shadow: 0 0 2px orange;
+  }
+
+  .label {
+    font-weight: 300;
+    color: #aaa;
+  }
+
+  .stat-value {
+    color: orange;
+    margin-top: 5px;
+    display: block;
+  }
+
+  .reset-button-container {
+    text-align: center;
+    margin-top: 15px;
+  }
+
+  .reset-button.full-width {
+    width: 100%;
+    padding: 8px 0;
+    border: none;
+    border-radius: 4px;
+    background: transparent;
+    color: orange;
+    box-shadow: 0 0 2px orange;
+  }
+</style>

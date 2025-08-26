@@ -1,0 +1,290 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Analysis Tool</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@600&display=swap" rel="stylesheet">
+  
+  <link rel="stylesheet" href="./css/analysis.css">
+  <link rel="stylesheet" href="./css/slider.css">
+
+</head>
+<body>
+  <div class="top-bar">
+    <select id="symbolSelector">
+      <option value="R_10">Volatility 10 Index</option>
+              <option value="R_25">Volatility 25 Index</option>
+              <option value="R_50">Volatility 50 Index</option>
+              <option value="R_75">Volatility 75 Index</option>
+              <option value="R_100">Volatility 100 Index</option>
+              <option value="1HZ10V">Volatility 10 (1s) Index</option>
+              <option value="1HZ25V">Volatility 25 (1s) Index</option>
+              <option value="1HZ50V">Volatility 50 (1s) Index</option>
+              <option value="1HZ75V">Volatility 75 (1s) Index</option>
+              <option value="1HZ100V">Volatility 100 (1s) Index</option>
+              <option value="RDBULL">Bull Market Index</option>
+              <option value="RDBEAR">Bear Market Index</option>
+    </select>
+    <label>Ticks <input type="number" id="tickCount" value="1000"></label>
+    <span class="price">PRICE 1701.69</span>
+    <!-- <input type="text" placeholder="Manual LDP">
+    <button>Upload</button>
+    <button>Download</button>
+    <button>Strategies</button>
+    <button onclick="toggleSmartAnalysis()">Smart Analysis</button> -->
+  </div>
+
+  <div class="grid-container grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4" id="smartAnalysisSection">
+    <div class="panel">
+      <h3 style="font-size: 10px; font-weight: bold;">LAST DIGITS</h3>
+      
+      <div class="circle-grid">
+        <div class="circle" data-value="9.90">0</div>
+        <div class="circle" data-value="10.90">1</div>
+        <div class="circle" data-value="10.10">2</div>
+        <div class="circle" data-value="9.20">3</div>
+        <div class="circle" data-value="9.00">4</div>
+        <div class="circle" data-value="9.90">5</div>
+        <div class="circle" data-value="10.70">6</div>
+        <div class="circle" data-value="11.30">7</div>
+        <div class="circle" data-value="9.30">8</div>
+        <div class="circle" data-value="10.80">9</div>
+      </div>
+    </div>
+    <div class="panel">
+      <h3 style="font-size: 10px; font-weight: bold;">OVER | UNDER</h3>
+      
+      <div class="button-grid">
+        <button style="background-color:#A5D6A7">5</button>
+        <button style="background-color:#FFCDD2">3</button>
+        <button style="background-color:#EF9A9A">2</button>
+        <button style="background-color:#A5D6A7">1</button>
+        <button style="background-color:#B2EBF2">7</button>
+        <button style="background-color:#90CAF9">3</button>
+        <button style="background-color:#E57373">6</button>
+        <button style="background-color:#A5D6A7">1</button>
+        <button style="background-color:#C8E6C9">6</button>
+        <button style="background-color:#C5E1A5">9</button>
+      </div>
+      <div class="under-over-bar">
+        <div>O</div>
+        <div>U</div>
+        <div>M</div>
+        <div>D</div>
+      </div>
+      <div class="panel-controls">
+        <label>IF LAST <input id="overNum" type="number" value="3"></label>
+        <label>DIGITS ARE 
+          <select id="overSide" style="background-color: #121212; color: white; border: none; border-radius: 4px; padding: 4px; text-align: center;">
+            <option value=">">></option>
+            <option value="<"><</option>
+          </select>
+        </label>
+        <label>THAN 
+          <select id="overDigit" style="background-color: #121212; color: white; border: none; border-radius: 4px; padding: 4px; text-align: center;">
+            <option value="0">0</option>
+            <option value="1">1</option>
+            <option value="2">2</option>
+            <option value="3">3</option>
+            <option value="4">4</option>
+            <option value="5">5</option>
+            <option value="6">6</option>
+            <option value="7">7</option>
+            <option value="8">8</option>
+            <option value="9">9</option>
+          </select>
+        </label>
+        <label>TRADE 
+          <select id="overContract" style="background-color: #121212; color: white; border: none; border-radius: 4px; padding: 4px; text-align: center;">
+            <option value="DIGITOVER">OVER</option>
+            <option value="DIGITUNDER">UNDER</option>
+          </select>
+        </label>
+        <div class="icon-button">
+          <button data-open-settings><i class="fas fa-sliders-h"></i></button> <!-- Settings icon -->
+          <button data-play_button data-contract="OVERUNDER"><i class="fas fa-play"></i></button>
+        </div>
+      </div>
+    </div>
+    <div class="panel">
+      <h3 style="font-size: 10px; font-weight: bold;">EVEN | ODD</h3>
+      
+      <div class="button-grid">
+        <button>0</button><button>O</button><button>E</button><button>O</button><button>E</button>
+        <button>0</button><button>0</button><button>E</button>
+      </div>
+      <div class="even-odd-bar">
+        <div>Even 49.40%</div>
+        <div>Odd 50.60%</div>
+      </div>
+      <div class="progress">
+        <div class="green" style="width:49.4%"></div>
+        <div class="red" style="width:50.6%"></div>
+      </div>
+      <div class="panel-controls">
+        <label>IF LAST <input id="evenNum" type="number" value="3"></label>
+        <label>ARE  
+          <select id="evenSide" style="background-color: #121212; color: white; border: none; border-radius: 4px; padding: 4px; text-align: center;">
+            <option value="ODD">ODD</option>
+            <option value="EVEN">EVEN</option>
+          </select>
+        </label>
+        <label>TRADE 
+          <select id="evenContract" style="background-color: #121212; color: white; border: none; border-radius: 4px; padding: 4px; text-align: center;">
+            <option value="DIGITODD">ODD</option>
+            <option value="DIGITEVEN">EVEN</option>
+          </select>
+        </label>
+        <div class="icon-button">
+          <button data-open-settings><i class="fas fa-sliders-h"></i></button> <!-- Settings icon -->
+          <button data-play_button data-contract="ODDEVEN"><i class="fas fa-play"></i></button>
+        </div>
+      </div>
+    </div>
+    <div class="panel">
+      <h3 style="font-size: 10px; font-weight: bold;">RISE | FALL</h3>
+      
+      <div class="button-grid">
+        <button>F</button><button>F</button><button>F</button>
+        <button>R</button><button>R</button><button>R</button>
+        <button>R</button><button>F</button>
+      </div>
+      <div class="rise-fall-bar">
+        <div>Rise 47.46%</div>
+        <div>Fall 52.54%</div>
+      </div>
+      <div class="progress">
+        <div class="green" style="width:47.46%"></div>
+        <div class="red" style="width:52.54%"></div>
+      </div>
+      <div class="panel-controls">
+        <label>IF LAST <input id="riseNum" type="number" value="3"></label>
+        <label>ARE  
+          <select id="riseSide" style="background-color: #121212; color: white; border: none; border-radius: 4px; padding: 4px; text-align: center;">
+            <option value="RISE">R</option>
+            <option value="FALL">F</option>
+          </select>
+        </label>
+        <label>TRADE 
+          <select id="riseContract" style="background-color: #121212; color: white; border: none; border-radius: 4px; padding: 4px; text-align: center;">
+            <option value="RISE">RISE</option>
+            <option value="FALL">FALL</option>
+          </select>
+        </label>
+        <div class="icon-button">
+          <button data-open-settings><i class="fas fa-sliders-h"></i></button> <!-- Settings icon -->
+          <button data-play_button data-contract="RISEFALL"><i class="fas fa-play"></i></button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Dialog (Settings Form) -->
+  <div id="settingsDialog" class="dialog">
+    <div class="dialog-title">Bot Settings</div> <!-- Added title here -->
+
+    <div class="form-group">
+      <label for="ticks">Ticks: </label>
+      <input type="number" id="ticksInput" placeholder="Enter ticks" value="1">
+    </div>
+
+    <div class="form-group">
+      <label for="stake">Stake: </label>
+      <input type="number" id="stakeInput" placeholder="Enter stake" value="1">
+    </div>
+
+    <div class="form-group">
+      <label for="martingale">Martingale: </label>
+      <input type="number" id="martingaleInput" placeholder="Enter martingale" value="1.20">
+    </div>
+
+    <br>
+    <button id="save">Save</button>
+  </div>
+  
+  <div id="slider"> 
+    <div id="slider-content">
+      <!-- Header -->
+      <div class="slider-header">
+        <div class="slider-controls rounded no-border">
+          <button id="run-button">
+            <span id="button-icon"></span>
+          </button>
+          <div class="progress-container with-margin dark-background">
+            <div class="progress-wrapper">
+              <div id="bot-status" class="above-progress">Bot is not running</div>
+              <div class="progress-line-background"></div>
+              <div class="progress-line"></div>
+              <div id="dot1" class="dot"></div>
+              <div id="dot2" class="dot"></div>
+              <div id="dot3" class="dot"></div>
+            </div>
+          </div>
+        </div>
+
+        <div class="divider"></div>
+
+        <!-- Description -->
+      <div class="table-container">
+          <table>
+            <thead>
+              <tr>
+                <th>Time</th>
+                <th>Asset</th>
+                <th>Stake</th>
+                <th>Payout</th>
+              </tr>
+            </thead>
+            <tbody id="bot-table-body">
+              <!-- Data will be injected here -->
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      <!-- Footer Stats -->
+      <div class="slider-footer">
+        <div class="stats-grid">
+          <div class="stat-box glow-box">
+            <span class="label">Total stake</span><br>
+            <b id="tstake" class="stat-value">0.00 USD</b>
+          </div>
+          <div class="stat-box glow-box">
+            <span class="label">Total payout</span><br>
+            <b id="tpayout" class="stat-value">0.00 USD</b>
+          </div>
+          <div class="stat-box glow-box">
+            <span class="label">No. of runs</span><br>
+            <b id="truns" class="stat-value">0</b>
+          </div>
+          <div class="stat-box glow-box">
+            <span class="label">Contracts lost</span><br>
+            <b id="tlost" class="stat-value">0</b>
+          </div>
+          <div class="stat-box glow-box">
+            <span class="label">Contracts won</span><br>
+            <b id="twon" class="stat-value">0</b>
+          </div>
+          <div class="stat-box glow-box">
+            <span class="label">Total profit/loss</span><br>
+            <b id="tploss" class="stat-value">0.00 USD</b>
+          </div>
+        </div>
+        <div class="reset-button-container">
+          <button id="resetBtn" class="reset-button full-width no-border">Reset</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+
+
+  <!-- Snackbar (Notification) -->
+  <div id="snackbar" class="snackbar">Settings saved successfully!</div>
+ 
+ <script src="js/analysis.js"></script>
+ <script type="module" src="js/setup.js"></script>
+</body>
+</html>

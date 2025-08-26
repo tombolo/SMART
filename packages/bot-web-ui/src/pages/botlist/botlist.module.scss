@@ -1,0 +1,431 @@
+.dashboard {
+    --primary: #6e44ff;
+    --primary-light: #8c65ff;
+    --secondary: #ff44a8;
+    --accent: #44ffb5;
+    --dark: #1a1a2e;
+    --darker: #0f0f1a;
+    --light: #f8f9fa;
+    --text: #e2e2e2;
+    --text-light: #a1a1a1;
+    --card-bg: #252540;
+    --card-shadow: 0 15px 30px -10px rgba(0, 0, 0, 0.3);
+    --transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+    --border-radius: 16px;
+    --border-radius-sm: 8px;
+    --gradient: linear-gradient(135deg, var(--primary), var(--secondary));
+
+    position: relative;
+    height: 80vh;
+    width: 100%;
+    padding: 2rem;
+    background-color: var(--darker);
+    color: var(--text);
+    font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+    overflow-y: auto;
+    display: flex;
+    flex-direction: column;
+
+    .particles {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        z-index: 0;
+        overflow: hidden;
+
+        .particle {
+            position: absolute;
+            background: var(--color);
+            border-radius: 50%;
+            width: var(--size);
+            height: var(--size);
+            top: var(--y);
+            left: var(--x);
+            opacity: 0.6;
+            filter: blur(2px);
+            animation: float var(--duration) var(--delay) infinite ease-in-out;
+            will-change: transform;
+        }
+    }
+
+    .container {
+        position: relative;
+        max-width: 1440px;
+        width: 100%;
+        margin: 0 auto;
+        z-index: 1;
+        padding: 0 1rem;
+        flex: 1;
+        display: flex;
+        flex-direction: column;
+        min-height: 0; // Important for proper scrolling
+    }
+
+    .header {
+        margin-bottom: 3rem;
+        display: flex;
+        flex-direction: column;
+        gap: 2rem;
+        width: 100%;
+        flex-shrink: 0;
+    }
+
+    .contentWrapper {
+        flex: 1;
+        min-height: 0;
+        display: flex;
+        flex-direction: column;
+        overflow-y: auto;
+        padding-bottom: 2rem;
+        
+        &::-webkit-scrollbar {
+            width: 8px;
+        }
+        
+        &::-webkit-scrollbar-track {
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 4px;
+        }
+        
+        &::-webkit-scrollbar-thumb {
+            background: var(--primary);
+            border-radius: 4px;
+        }
+    }
+
+    .content {
+        position: relative;
+        width: 100%;
+        flex: 1;
+    }
+
+    /* Rest of your existing styles... */
+    .titleContainer {
+        position: relative;
+        max-width: 800px;
+        width: 100%;
+        padding: 1rem 0;
+    }
+
+    .title {
+        display: flex;
+        align-items: center;
+        gap: 1rem;
+        margin: 0;
+        font-size: 3.5rem;
+        font-weight: 900;
+        color: var(--light);
+        line-height: 1.1;
+        letter-spacing: -1px;
+        text-shadow: 0 4px 20px rgba(110, 68, 255, 0.5);
+        position: relative;
+        z-index: 1;
+
+        @media (min-width: 768px) {
+            font-size: 4.5rem;
+        }
+    }
+
+    .titleText {
+        position: relative;
+        display: inline-block;
+        transition: var(--transition);
+        background: linear-gradient(135deg, var(--primary), var(--secondary), var(--accent));
+        -webkit-background-clip: text;
+        background-clip: text;
+        -webkit-text-fill-color: transparent;
+        padding-right: 1rem;
+
+        &:before {
+            content: '';
+            position: absolute;
+            bottom: -5px;
+            left: 0;
+            width: 100%;
+            height: 4px;
+            background: linear-gradient(90deg, var(--primary), var(--accent));
+            border-radius: 2px;
+            transform-origin: left;
+            transform: scaleX(1);
+            transition: var(--transition);
+            z-index: -1;
+            filter: blur(5px);
+            opacity: 0.8;
+        }
+
+        &.titleHover {
+            transform: translateY(-3px);
+            text-shadow: 0 6px 25px rgba(110, 68, 255, 0.7);
+
+            &:before {
+                opacity: 1;
+                filter: blur(8px);
+            }
+        }
+    }
+
+    .emoji {
+        display: inline-block;
+        font-size: 3rem;
+        transform-origin: center bottom;
+        transition: var(--transition);
+        animation: emojiPulse 2s infinite ease-in-out;
+        text-shadow: 0 0 15px rgba(255, 255, 255, 0.3);
+
+        &.emojiHover {
+            animation: emojiHover 0.5s ease-in-out;
+            transform: scale(1.2) rotate(10deg);
+        }
+
+        @media (min-width: 768px) {
+            font-size: 4rem;
+        }
+    }
+
+    .subtitle {
+        margin: 1.5rem 0 0;
+        font-size: 1.5rem;
+        color: var(--text-light);
+        font-weight: 400;
+        max-width: 600px;
+        line-height: 1.5;
+        position: relative;
+        padding-left: 1rem;
+
+        &:before {
+            content: '';
+            position: absolute;
+            left: 0;
+            top: 0;
+            height: 100%;
+            width: 3px;
+            background: linear-gradient(to bottom, var(--primary), var(--accent));
+            border-radius: 3px;
+        }
+    }
+
+    .grid {
+        display: grid;
+        gap: 2rem;
+        grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+        padding: 1rem 0;
+        width: 100%;
+
+        @media (min-width: 768px) {
+            grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+        }
+
+        @media (min-width: 1200px) {
+            grid-template-columns: repeat(auto-fill, minmax(340px, 1fr));
+        }
+
+        @media (max-width: 767px) {
+            grid-template-columns: 1fr;
+            gap: 1.5rem;
+        }
+    }
+
+    .loader {
+        display: grid;
+        gap: 2rem;
+        grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+        padding: 1rem 0;
+        width: 100%;
+
+        @media (min-width: 1200px) {
+            grid-template-columns: repeat(auto-fill, minmax(340px, 1fr));
+        }
+
+        @media (max-width: 767px) {
+            grid-template-columns: 1fr;
+            gap: 1.5rem;
+        }
+    }
+
+    .skeletonCard {
+        background: var(--card-bg);
+        border-radius: var(--border-radius);
+        padding: 1.5rem;
+        box-shadow: var(--card-shadow);
+        overflow: hidden;
+        position: relative;
+        height: 240px;
+        border: 1px solid rgba(255, 255, 255, 0.1);
+        transition: var(--transition);
+    }
+
+    .skeletonImage {
+        width: 100%;
+        height: 140px;
+        background: linear-gradient(
+            90deg, 
+            rgba(255, 255, 255, 0.05) 25%, 
+            rgba(255, 255, 255, 0.1) 50%, 
+            rgba(255, 255, 255, 0.05) 75%
+        );
+        background-size: 200% 100%;
+        border-radius: var(--border-radius-sm);
+        animation: shimmer 2s infinite linear;
+        margin-bottom: 1rem;
+        opacity: 0.8;
+    }
+
+    .skeletonText {
+        height: 16px;
+        width: 80%;
+        background: linear-gradient(
+            90deg, 
+            rgba(255, 255, 255, 0.05) 25%, 
+            rgba(255, 255, 255, 0.1) 50%, 
+            rgba(255, 255, 255, 0.05) 75%
+        );
+        background-size: 200% 100%;
+        border-radius: 4px;
+        animation: shimmer 2s infinite linear;
+        margin-bottom: 0.75rem;
+        opacity: 0.8;
+    }
+
+    .skeletonTextSm {
+        height: 12px;
+        width: 60%;
+        background: linear-gradient(
+            90deg, 
+            rgba(255, 255, 255, 0.05) 25%, 
+            rgba(255, 255, 255, 0.1) 50%, 
+            rgba(255, 255, 255, 0.05) 75%
+        );
+        background-size: 200% 100%;
+        border-radius: 4px;
+        animation: shimmer 2s infinite linear;
+        opacity: 0.8;
+    }
+
+    .empty {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        padding: 4rem 2rem;
+        text-align: center;
+        background: var(--card-bg);
+        border-radius: var(--border-radius);
+        box-shadow: var(--card-shadow);
+        border: 1px solid rgba(255, 255, 255, 0.1);
+        animation: fadeIn 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+        grid-column: 1 / -1;
+        margin: 2rem 0;
+        transition: var(--transition);
+        width: 100%;
+        position: relative;
+        overflow: hidden;
+
+        &:before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(
+                135deg,
+                rgba(110, 68, 255, 0.1),
+                rgba(68, 255, 181, 0.1)
+            );
+            z-index: -1;
+        }
+
+        &:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 20px 40px -10px rgba(0, 0, 0, 0.4);
+            border-color: rgba(110, 68, 255, 0.3);
+        }
+
+        &Icon {
+            margin-bottom: 1.5rem;
+            color: var(--primary-light);
+            opacity: 0.7;
+            transition: var(--transition);
+            filter: drop-shadow(0 0 5px rgba(110, 68, 255, 0.5));
+        }
+
+        &:hover &Icon {
+            transform: scale(1.2);
+            opacity: 1;
+            filter: drop-shadow(0 0 10px rgba(110, 68, 255, 0.7));
+        }
+    }
+
+    @keyframes float {
+        0%, 100% {
+            transform: translate(0, 0);
+        }
+        50% {
+            transform: translate(
+                calc(var(--size) * 3), 
+                calc(var(--size) * 3)
+            );
+        }
+    }
+
+    @keyframes emojiPulse {
+        0%, 100% {
+            transform: scale(1) rotate(0deg);
+        }
+        50% {
+            transform: scale(1.1) rotate(5deg);
+        }
+    }
+
+    @keyframes emojiHover {
+        0%, 100% {
+            transform: scale(1.2) rotate(10deg);
+        }
+        50% {
+            transform: scale(1.3) rotate(15deg);
+        }
+    }
+
+    @keyframes shimmer {
+        0% {
+            background-position: -200% 0;
+        }
+        100% {
+            background-position: 200% 0;
+        }
+    }
+
+    @keyframes fadeIn {
+        from {
+            opacity: 0;
+            transform: translateY(20px);
+        }
+        to {
+            opacity: 1;
+            transform: translateY(0);
+        }
+    }
+
+    .dbot-workspace-card {
+        animation: cardEnter 0.6s cubic-bezier(0.16, 1, 0.3, 1) both;
+        
+        @for $i from 1 through 12 {
+            &:nth-child(#{$i}) {
+                animation-delay: $i * 0.1s;
+            }
+        }
+    }
+
+    @keyframes cardEnter {
+        from {
+            opacity: 0;
+            transform: translateY(30px) scale(0.95);
+        }
+        to {
+            opacity: 1;
+            transform: translateY(0) scale(1);
+        }
+    }
+}

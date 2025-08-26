@@ -1,0 +1,134 @@
+body {
+  height: 100%;
+  overflow-y: auto;
+  margin: 0;
+  font-family: 'Inter', sans-serif;
+  background-color: #121212;
+  color: #f0f0f0;
+  font-size: 14px;
+  padding-bottom: 10% !important;
+}
+
+.container {
+  padding: 20px;
+  max-width: 1000px;
+  margin: auto;
+}
+
+.btn-group {
+  display: flex;
+  gap: 10px;
+  margin-bottom: 20px;
+}
+
+.btn-group button {
+  flex: 1;
+  background: #1f1f1f;
+  color: #ffffff;
+  border: 1px solid #ff8c00;
+  padding: 10px;
+  cursor: pointer;
+  font-size: 14px;
+  transition: box-shadow 0.3s;
+}
+
+.btn-group button.active {
+  border-color: #ff8c00;
+  box-shadow: 0 0 8px #ff8c00;
+}
+
+.card {
+  background: #1e1e1e;
+  border: 1px solid #ff8c00;
+  border-radius: 10px;
+  padding: 15px;
+  margin-bottom: 20px;
+  box-shadow: 0 0 5px rgba(255, 140, 0, 0.15);
+}
+
+.card .title {
+  font-weight: bold;
+  margin-bottom: 10px;
+  color: #ff8c00;
+}
+
+.progress-bar {
+  background-color: #333333;
+  border-radius: 5px;
+  overflow: hidden;
+  height: 5px;
+  margin-top: 5px;
+}
+
+.progress {
+  background-color: #ff8c00;
+  width: 0%;
+  height: 100%;
+  transition: width 0.1s linear;
+}
+
+.form-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 10px;
+  margin-top: 10px;
+}
+
+input, select {
+  padding: 8px;
+  background-color: #2c2c2c;
+  color: #ffffff;
+  border: 1px solid #ff8c00;
+  border-radius: 5px;
+  font-size: 13px;
+  box-shadow: 0 0 4px rgba(255, 140, 0, 0.2);
+}
+
+input:focus, select:focus {
+  outline: none;
+  box-shadow: 0 0 6px rgba(255, 140, 0, 0.4);
+}
+
+.form-grid strong {
+  font-weight: 300;
+  color: #cccccc;
+}
+
+button.run {
+  background: linear-gradient(to right, #ffb347, #ff8c00);
+  border: none;
+  color: #121212;
+  font-weight: 600;
+  padding: 12px 20px;
+  border-radius: 8px;
+  margin-top: 10px;
+  font-size: 14px;
+  cursor: pointer;
+  box-shadow: 0 0 15px rgba(255, 140, 0, 0.5);
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+button.run:hover {
+  transform: scale(1.05);
+  box-shadow: 0 0 20px rgba(255, 140, 0, 0.7);
+}
+
+.stats, .transactions {
+  display: flex;
+  justify-content: space-between;
+  gap: 20px;
+}
+
+.stats .card, .transactions .card {
+  flex: 1;
+}
+
+.clear-btn {
+  float: right;
+  background: #ff8c00;
+  color: #ffffff;
+  border: none;
+  cursor: pointer;
+  padding: 5px 10px;
+  border-radius: 5px;
+}

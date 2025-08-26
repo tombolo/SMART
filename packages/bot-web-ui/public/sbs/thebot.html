@@ -1,0 +1,187 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>BOT AI</title>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+  <link rel="stylesheet" href="./css/thebot.css">
+  <link rel="stylesheet" href="./css/risk_bar.css">
+  
+</head>
+<body>
+  <div class="container">
+    <div class="right-side">
+      <div class="bot-area">
+        <div class="bot-status-container">
+          <button class="run-btn" id="run-btn">Run</button>
+          <div class="status-container">
+            <p class="status-text" id="status">bot not running</p>
+            <div class="dots-container">
+              <div class="dot-container"><div class="dot" id="dot1"></div></div>
+              <div class="dot-container"><div class="dot" id="dot2"></div></div>
+              <div class="dot-container"><div class="dot" id="dot3"></div></div>
+            </div>
+          </div>
+          <div class="risk-container-unique">
+            <div class="risk-bar-unique" id="riskBarUnique">
+              <div class="risk-label-unique">RISK</div>
+              <!-- 5 bars dynamically filled via JS -->
+            </div>
+          </div>
+        </div>
+
+        <div class="table-container">
+          <table>
+            <thead>
+              <tr>
+                <th>Time</th>
+                <th>Asset</th>
+                <th>Trade</th>
+                <th>Stake</th>
+                <th>Payout</th>
+              </tr>
+            </thead>
+            <tbody id="bot-table-body">
+              <!-- Data will be injected here -->
+            </tbody>
+          </table>
+        </div>
+
+        <div class="summary">
+          <div class="total-stake">
+            <p class="label">Total Stake</p>
+            <p class="amount" id="total-stake">$0.00</p>
+          </div>
+          <div class="total-won">
+            <p class="label">Total Won</p>
+            <p class="amount" id="total-won">0</p>
+          </div>
+          <div class="total-lost">
+            <p class="label">Total Lost</p>
+            <p class="amount" id="total-lost">0</p>
+          </div>
+          <div class="profit-loss">
+            <p class="label">Profit/Loss</p>
+            <p class="amount" id="profit-loss">$0.00</p>
+          </div>
+        </div>
+      </div>      
+    </div>
+
+    <div class="form">
+      <div class="select-wrapper">
+        <select id="market-select">
+              <option selected disabled>Volatility 100 Index</option>
+              <option value="R_10">Volatility 10 Index</option>
+              <option value="R_25">Volatility 25 Index</option>
+              <option value="R_50">Volatility 50 Index</option>
+              <option value="R_75">Volatility 75 Index</option>
+              <option value="R_100">Volatility 100 Index</option>
+              <option value="1HZ10V">Volatility 10 (1s) Index</option>
+              <option value="1HZ25V">Volatility 25 (1s) Index</option>
+              <option value="1HZ50V">Volatility 50 (1s) Index</option>
+              <option value="1HZ75V">Volatility 75 (1s) Index</option>
+              <option value="1HZ100V">Volatility 100 (1s) Index</option>
+              <option value="RDBULL">Bull Market Index</option>
+              <option value="RDBEAR">Bear Market Index</option>
+        </select>
+      </div>
+      <div class="select-wrapper">
+        <select id="indicator-select">
+          <option value="" selected disabled>Select Indicator</option>
+          <option value="MACD">MACD</option>
+          <option value="RSI">RSI</option>
+          <option value="MACD-RSI">Combined MACD & RSI</option>
+        </select>
+      </div>
+      <div class="input-wrapper">
+        <input id="datasize" type="text" placeholder="Tick size" value="100" />
+        <span class="hint">Data Size</span>
+      </div>
+      <div class="input-wrapper">
+        <input id="fastema" type="text" placeholder="Fast EMA" value="10" />
+        <span class="hint">Fast EMA</span>
+      </div>
+      <div class="input-wrapper">
+        <input id="slowema" type="text" placeholder="Slow EMA" value="46" />
+        <span class="hint">Slow EMA</span>
+      </div>
+      <div class="input-wrapper">
+        <input id="period" type="text" placeholder="Signal period" value="9" />
+        <span class="hint">Signal Period</span>
+      </div>
+      <div class="input-wrapper" style="display: none;">
+        <input id="buy" type="text" placeholder="Buy at" value="30" />
+        <span class="hint">RSI buy at</span>
+      </div>
+      <div class="input-wrapper" style="display: none;">
+        <input id="sell" type="text" placeholder="Sell at" value="70" />
+        <span class="hint">RSI sell at</span>
+      </div>
+      <div class="input-wrapper">
+        <input id="init-stake" type="text" placeholder="Initial Stake" value="1.00" />
+        <span class="hint">Initial stake</span>
+      </div>
+      <div class="input-wrapper">
+        <input id="tp" type="text" placeholder="Take Profit" value="20" />
+        <span class="hint">Take profit</span>
+      </div>
+      <div class="input-wrapper">
+        <input id="sl" type="text" placeholder="Stop Loss" value="20" />
+        <span class="hint">Stop loss</span>
+      </div>
+      <div class="input-wrapper">
+        <input id="plier" type="text" placeholder="Enter Multiplier" value="1.25" />
+        <span class="hint">Multiplier</span>
+      </div>
+      <div class="input-wrapper">
+        <input id="maxstake" type="text" placeholder="Max Stake" value="100" />
+        <span class="hint">Max stake</span>
+      </div>
+      <div class="input-wrapper">
+        <input id="maxruns" type="text" placeholder="Max Trade" value="1000" />
+        <span class="hint">Max Trades</span>
+      </div>
+    </div>
+  </div>
+
+  <script type="module" src="js/thebot.js"></script>
+
+  <script>
+    const barContainerUnique = document.getElementById('riskBarUnique');
+    const inputUnique = document.getElementById('plier');
+
+    // Create 10 bars
+    for (let i = 0; i < 5; i++) {
+      const bar = document.createElement('div');
+      bar.classList.add('risk-bar-segment', 'inactive');
+      barContainerUnique.appendChild(bar);
+    }
+
+    const updateBarsUnique = (value) => {
+      const bars = Array.from(barContainerUnique.querySelectorAll('.risk-bar-segment'));
+      bars.forEach((bar, index) => {
+        if (index < value) {
+          bar.classList.remove('inactive');
+        } else {
+          bar.classList.add('inactive');
+        }
+      });
+    };
+
+    inputUnique.addEventListener('input', () => {
+      let value = parseInt((inputUnique.value - 1 + 0.1) * 5);
+      if (isNaN(value)) value = 0;
+      if (value < 0) value = 0;
+      if (value > 5) value = 5;
+      updateBarsUnique(value);
+    });
+
+    // Initialize
+    updateBarsUnique(1);
+  </script>
+
+</body>
+</html>

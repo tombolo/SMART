@@ -1,0 +1,332 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Analysis Tool</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@600&display=swap" rel="stylesheet">
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background-color: #121212;
+      color: #fff;
+      padding: 10px;
+      margin: 0;
+    }
+    .top-bar {
+      display: flex;
+      gap: 10px;
+      align-items: center;
+      margin-bottom: 20px;
+      flex-wrap: wrap;
+    }
+    .top-bar * { font-size: 0.775rem  !important; }
+    .top-bar input, .top-bar select {
+      padding: 5px;
+      border: none;
+      border-radius: 6px;
+      box-shadow: 0 0 3px orange;
+      background-color: #1e1e1e;
+      color: #fff;
+    }
+    .top-bar button {
+      background-color: #1e1e1e;
+      color: orange;
+      border-radius: 6px;
+      padding: 4px 8px;
+      box-shadow: 0 0 3px orange;
+      border: none;
+      font-size: 14px;
+    }
+    .top-bar .price {
+      font-weight: bold;
+      color: orange;
+    }
+    .grid-container {
+      display: flex;
+      flex-direction: column;
+      gap: 20px;
+    }
+    .panel {
+      width: 100%;
+      background-color: #1e1e1e;
+      padding: 15px;
+      border-radius: 8px;
+      box-shadow: 0 0 8px rgba(255,165,0,0.3);
+      display: flex;
+      flex-direction: column;
+    }
+    .panel input {
+      color: orange !important;
+      background-color: #121212;
+      border: none;
+      border-radius: 4px;
+      text-align: center;
+      padding: 4px;
+    }
+    .panel select {
+      color: orange !important;
+      background-color: #121212;
+      border: none;
+      border-radius: 4px;
+      padding: 4px;
+      text-align: center;
+    }
+    .panel > *:not(.panel-controls) {
+      flex-shrink: 0;
+    }
+
+    .circle-grid {
+      display: grid;
+      grid-template-columns: repeat(5, 1fr);
+      gap: 20px 10px;
+      justify-items: center;
+      margin-bottom: 10px;
+      margin-top: 20px;
+    }
+    .circle {
+      width: 40px;
+      height: 40px;
+      border-radius: 50%;
+      background-color: #121212;
+      color: white;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      position: relative;
+      font-weight: bold;
+      font-size: 14px;
+      box-shadow: 0 0 8px orange;
+    }
+    .circle::after {
+      content: attr(data-value) '%';
+      position: absolute;
+      bottom: -16px;
+      font-size: 10px;
+      color: orange;
+    }
+    .circle.lowest {
+      border: 3px solid red;
+    }
+    .circle.highest {
+      border: 3px solid green;
+    }
+    .divider {
+      border-top: 0.01px solid orange;
+      margin: 1px 0 0px;
+    }
+    .button-grid {
+      display: flex;
+      justify-content: center;
+      flex-wrap: wrap;
+      gap: 10px;
+      margin-top: 10px;
+    }
+    .button-grid button {
+      padding: 8px 12px;
+      border: none;
+      border-radius: 4px;
+      cursor: pointer;
+      font-size: 14px;
+      box-shadow: 0 0 8px orange;
+      font-family: 'Poppins', ghetto;
+      font-weight: bold;
+      color: black;
+    }
+    .even-odd-bar, .rise-fall-bar, .under-over-bar {
+      display: flex;
+      justify-content: space-between;
+      margin-top: 10px;
+      font-size: 10px;
+      color: orange;
+    }
+    .progress {
+      display: flex;
+      height: 10px;
+      margin-top: 5px;
+    }
+    .progress div {
+      height: 100%;
+    }
+    .green { background-color: #4CAF50; }
+    .red { background-color: #f44336; }
+    .blue { background-color: #2196F3; }
+    .light-blue { background-color: #81D4FA; }
+    .light-red { background-color: #FFCDD2; }
+
+    .hidden { display: none; }
+
+    .dialog {
+      position: fixed;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      background-color: #1e1e1e;
+      padding: 30px;
+      border-radius: 8px;
+      box-shadow: 0 0 15px rgba(255, 165, 0, 0.6);
+      z-index: 9999;
+      display: none;
+      min-width: 300px;
+    }
+    .dialog .dialog-title {
+      font-size: 16px;
+      font-weight: bold;
+      color: orange;
+      margin-bottom: 15px;
+    }
+    .form-group {
+      margin-bottom: 15px;
+    }
+    .form-group label {
+      display: block;
+      margin-bottom: 5px;
+      color: white;
+    }
+    .dialog input {
+      margin: 5px 0;
+      padding: 10px;
+      border: none;
+      border-radius: 6px;
+      background-color: #121212;
+      color: #fff;
+      width: 100%;
+    }
+    .dialog button {
+      background-color: orange;
+      color: white;
+      border: none;
+      padding: 8px 15px;
+      border-radius: 4px;
+      cursor: pointer;
+    }
+    #slider {
+      width: 100%;
+      height: 200px;
+      background-color: #f0f0f0;
+      border: 1px solid #ccc;
+      display: none;
+      position: absolute;
+      top: 0;
+      z-index: 2;
+      transition: transform 0.4s ease;
+    }
+    #slider.left { left: 0; transform: translateX(-100%); }
+    #slider.right { right: 0; transform: translateX(100%); }
+    #slider.open-left, #slider.open-right { transform: translateX(0); }
+
+    .snackbar {
+      visibility: hidden;
+      min-width: 250px;
+      margin-left: -125px;
+      background-color: #4CAF50;
+      color: #fff;
+      text-align: center;
+      border-radius: 2px;
+      padding: 16px;
+      position: fixed;
+      z-index: 1;
+      bottom: 30px;
+      left: 50%;
+      font-size: 17px;
+      box-shadow: 0 0 10px orange;
+    }
+    .snackbar.show {
+      visibility: visible;
+      animation: fadein 0.5s, fadeout 0.5s 3s;
+    }
+    @keyframes fadein {
+      from { bottom: 0; opacity: 0; }
+      to { bottom: 30px; opacity: 1; }
+    }
+    @keyframes fadeout {
+      from { opacity: 1; }
+      to { opacity: 0; }
+    }
+  </style>
+</head>
+<body>
+  <div class="top-bar">
+    <select id="symbolSelector">
+      <option value="R_100" selected>Volatility 100 Index</option>
+    </select>
+    <label>Ticks <input type="number" id="tickCount" value="1000"></label>
+    <span class="price">PRICE 1701.69</span>
+  </div>
+  <div class="grid-container" id="smartAnalysisSection">
+    <div class="panel">
+      <h3 style="font-size: 10px; font-weight: bold;">LAST DIGITS</h3>
+      <div class="divider"></div>
+      <div class="circle-grid">
+        <div class="circle" data-value="9.90">0</div>
+        <div class="circle" data-value="10.90">1</div>
+        <div class="circle" data-value="10.10">2</div>
+        <div class="circle" data-value="9.20">3</div>
+        <div class="circle" data-value="9.00">4</div>
+        <div class="circle" data-value="9.90">5</div>
+        <div class="circle" data-value="10.70">6</div>
+        <div class="circle" data-value="11.30">7</div>
+        <div class="circle" data-value="9.30">8</div>
+        <div class="circle" data-value="10.80">9</div>
+      </div>
+    </div>
+    <div class="panel">
+      <h3 style="font-size: 10px; font-weight: bold;">OVER | UNDER</h3>
+      <div class="divider"></div>
+      <div class="button-grid">
+        <button style="background-color:#A5D6A7">5</button>
+        <button style="background-color:#FFCDD2">3</button>
+        <button style="background-color:#EF9A9A">2</button>
+        <button style="background-color:#A5D6A7">1</button>
+        <button style="background-color:#B2EBF2">7</button>
+        <button style="background-color:#90CAF9">3</button>
+        <button style="background-color:#E57373">6</button>
+        <button style="background-color:#A5D6A7">1</button>
+        <button style="background-color:#C8E6C9">6</button>
+        <button style="background-color:#C5E1A5">9</button>
+      </div>
+      <div class="under-over-bar">
+        <div>O</div>
+        <div>U</div>
+        <div>M</div>
+        <div>D</div>
+      </div>
+    </div>
+    <div class="panel">
+      <h3 style="font-size: 10px; font-weight: bold;">EVEN | ODD</h3>
+      <div class="divider"></div>
+      <div class="button-grid">
+        <button>0</button><button>O</button><button>E</button><button>O</button><button>E</button>
+        <button>0</button><button>0</button><button>E</button>
+      </div>
+      <div class="even-odd-bar">
+        <div>Even 49.40%</div>
+        <div>Odd 50.60%</div>
+      </div>
+      <div class="progress">
+        <div class="green" style="width:49.4%"></div>
+        <div class="red" style="width:50.6%"></div>
+      </div>
+    </div>
+    <div class="panel">
+      <h3 style="font-size: 10px; font-weight: bold;">RISE | FALL</h3>
+      <div class="divider"></div>
+      <div class="button-grid">
+        <button>F</button><button>F</button><button>F</button>
+        <button>R</button><button>R</button><button>R</button>
+        <button>R</button><button>F</button>
+      </div>
+      <div class="rise-fall-bar">
+        <div>Rise 47.46%</div>
+        <div>Fall 52.54%</div>
+      </div>
+      <div class="progress">
+        <div class="green" style="width:47.46%"></div>
+        <div class="red" style="width:52.54%"></div>
+      </div>
+    </div>
+  </div>
+  <script src="js/analysis.js"></script>
+</body>
+</html>
