@@ -3,6 +3,7 @@ import { useTranslation, withTranslation } from 'react-i18next';
 import { BrowserRouter as Router } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import GlobalLoading from './GlobalLoading';
+import Disclaimer from '../../../appstore/src/components/disclaimer/disclaimer.tsx';
 
 import { APIProvider } from '@deriv/api';
 import { CashierStore } from '@deriv/cashier';
@@ -167,6 +168,7 @@ const AppWithoutTranslation = ({ root_store }) => {
                                             <React.Suspense fallback={<GlobalLoading />}>
                                                 <AppContent passthrough={platform_passthrough} />
                                             </React.Suspense>
+                                            <Disclaimer /> {/* Add the disclaimer here */}
                                         </TranslationProvider>
                                     </P2PSettingsProvider>
                                 </POIProvider>
