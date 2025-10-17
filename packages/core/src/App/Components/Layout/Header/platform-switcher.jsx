@@ -1,16 +1,16 @@
 import 'Sass/app/_common/components/platform-switcher.scss';
 
 import { useDevice } from '@deriv-com/ui';
-import { Icon } from '@deriv/components';
 import { getPlatformInformation } from '@deriv/shared';
 import { CSSTransition } from 'react-transition-group';
 import { PlatformDropdown } from './platform-dropdown.jsx';
 import { PlatformSwitcherLoader } from './Components/Preloader/platform-switcher.jsx';
-import { PlatformIconMapper, shouldUseCustomIcon } from './platform-icon-mapper';
 import PropTypes from 'prop-types';
 import React from 'react';
 import classNames from 'classnames';
 import { withRouter } from 'react-router-dom';
+import derivBotImg from '../../../../public/images/icons/deriv_bot.png';
+import derivTraderImg from '../../../../public/images/icons/deriv_trader.png';
 
 const PlatformSwitcher = ({
     toggleDrawer,
@@ -64,34 +64,17 @@ const PlatformSwitcher = ({
             >
                 {(() => {
                     const platform_info = getPlatformInformation(app_routing_history);
-                    // When on Deriv Bot, encourage switching by showing 'DERIV TRADER'.
-                    // Otherwise, suggest 'DERIV BOT'. For non-custom icons, keep original header/name.
-                    const label_text = shouldUseCustomIcon(platform_info.icon)
-                        ? platform_info.icon === 'IcRebrandingDerivBot'
-                            ? 'DERIV TRADER'
-                            : 'DERIV BOT'
-                        : platform_info.header || platform_info.name || 'Platform';
+                    const is_bot = platform_info.icon === 'IcRebrandingDerivBot';
+                    const img_src = is_bot ? derivTraderImg : derivBotImg;
+                    const alt_text = is_bot ? 'Deriv Trader' : 'Deriv Bot';
+                    const icon_class = is_bot ? 'custom-trader-icon' : 'custom-bot-icon';
                     return (
-                        <>
-                {shouldUseCustomIcon(getPlatformInformation(app_routing_history).icon) ? (
-                    <PlatformIconMapper
-                        icon={getPlatformInformation(app_routing_history).icon}
-                        width={120}
-                        height={25}
-                        className='platform-switcher__icon'
-                    />
-                ) : (
-                    <Icon
-                        className='platform-switcher__icon'
-                        icon={getPlatformInformation(app_routing_history).icon}
-                        description={getPlatformInformation(app_routing_history).header}
-                        width={120}
-                        height={25}
-                    />
-                )}
-                <span className='platform-switcher__label'>{label_text}</span>
-                <span className='platform-switcher__arrow-emoji'>👇</span>
-                        </>
+                        <img
+                            src={img_src}
+                            alt={alt_text}
+                            className={classNames('platform-switcher__icon', icon_class)}
+                            draggable={false}
+                        />
                     );
                 })()}
             </div>
