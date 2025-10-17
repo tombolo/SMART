@@ -9,8 +9,8 @@ import { useHistory } from 'react-router';
 import { useDevice } from '@deriv-com/ui';
 import { useIsHubRedirectionEnabled } from '@deriv/hooks';
 import { useStore } from '@deriv/stores';
-import derivBotImg from '../../../public/images/icons/deriv_bot.png';
-import derivTraderImg from '../../../public/images/icons/deriv_trader.png';
+import derivBotImg from '../../../../public/images/icons/deriv_bot.png';
+import derivTraderImg from '../../../../public/images/icons/deriv_trader.png';
 
 const PlatformBox = ({ platform: { icon, description, name } }) => (
     <React.Fragment>
