@@ -5,7 +5,7 @@
     padding: 0.2rem 0.4rem; // minimal touch to keep spacing without a container look
     transition: color 0.25s ease, transform 0.2s ease;
     cursor: pointer;
-    background: transparent; // no container
+    background: #000; // black background per request
     border-radius: 0; // remove pill look
     box-shadow: none;
     border: none;
@@ -135,10 +135,10 @@
         user-select: none;
         -webkit-touch-callout: none;
         -webkit-tap-highlight-color: transparent;
-        background: transparent;
+        background: #000; // keep black background on mobile too
         border-radius: 0;
         padding: 0.4rem 0.6rem;
-        margin: 0.4rem auto 0.2rem;
+        margin: 0.8rem auto 0.2rem; // push down a bit on mobile
 
         // Tap ripple without container
         &::before {
@@ -151,6 +151,9 @@
             transition: opacity 0.25s ease;
         }
         &:active::before { opacity: 1; }
+        &.platform-switcher--is-mobile {
+            margin-top: 0.8rem; // additional nudge below the menu bar
+        }
     }
 
     // Thin black border to improve visibility on all screens

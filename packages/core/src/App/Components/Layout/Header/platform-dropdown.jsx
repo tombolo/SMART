@@ -1,6 +1,6 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import { Div100vhContainer, Icon, useOnClickOutside, Text } from '@deriv/components';
+import { Div100vhContainer, useOnClickOutside, Text } from '@deriv/components';
 import { routes, getActivePlatform, platforms } from '@deriv/shared';
 import { BinaryLink } from 'App/Components/Routes';
 import 'Sass/app/_common/components/platform-dropdown.scss';
@@ -9,20 +9,27 @@ import { useHistory } from 'react-router';
 import { useDevice } from '@deriv-com/ui';
 import { useIsHubRedirectionEnabled } from '@deriv/hooks';
 import { useStore } from '@deriv/stores';
-import { PlatformIconMapper, shouldUseCustomIcon } from './platform-icon-mapper';
+import derivBotImg from '../../../public/images/icons/deriv_bot.png';
+import derivTraderImg from '../../../public/images/icons/deriv_trader.png';
 
-const PlatformBox = ({ platform: { icon, description } }) => (
+const PlatformBox = ({ platform: { icon, description, name } }) => (
     <React.Fragment>
         <div className='platform-dropdown__list-platform-background' />
 
         <div className='platform-switcher__dropdown' data-testid='dt_platform_box_icon'>
-            {shouldUseCustomIcon(icon) ? (
-                <div className='platform-dropdown__custom-icon'>
-                    <PlatformIconMapper icon={icon} height={32} width={140} />
-                </div>
-            ) : (
-                <Icon icon={icon} height={42} width={150} description={icon} />
-            )}
+            {(() => {
+                const is_bot = /bot/i.test(icon) || /bot/i.test(name);
+                const src = is_bot ? derivBotImg : derivTraderImg;
+                const alt = is_bot ? 'Deriv Bot' : 'Deriv Trader';
+                return (
+                    <img
+                        src={src}
+                        alt={alt}
+                        className='platform-dropdown__img'
+                        draggable={false}
+                    />
+                );
+            })()}
             <p className='platform-dropdown__list-platform-description'>{description()}</p>
         </div>
     </React.Fragment>

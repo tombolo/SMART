@@ -373,7 +373,7 @@ const ToggleMenuDrawer = observer(({ platform_config }) => {
                                             <a href='https://t.me/+DsTvV3FwvWhiN2E0/states36' target='_blank' rel='noopener noreferrer' aria-label='Telegram'>
                                                 <Icon icon='IcTelegram' width={22} height={22} />
                                             </a>
-                                            <a href='https://www.instagram.com/states4901?igsh=NXZyN242Z3Y3dzc0&utm_source=qr' target='_blank' rel='noopener noreferrer' aria-label='Instagram'>
+                                            <a href='https://www.instagram.com/deriv_option_?igsh=MXBlZ2YxbGVqdXExNA==' target='_blank' rel='noopener noreferrer' aria-label='Instagram'>
                                                 <svg width='22' height='22' viewBox='0 0 24 24' xmlns='http://www.w3.org/2000/svg' aria-hidden='true'>
                                                     <defs>
                                                         <linearGradient id='igGradMobile' x1='0%' y1='0%' x2='100%' y2='100%'>

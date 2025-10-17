@@ -103,6 +103,32 @@
                 z-index: -1;
                 border-radius: inherit;
             }
+            // Image-based icon styling
+            .platform-dropdown__img {
+                width: 180px;
+                height: 44px;
+                object-fit: contain;
+                border-radius: 10px;
+                background: transparent;
+                box-shadow: 0 2px 8px rgba(0, 0, 0, 0.18);
+                transition: transform 0.25s ease, filter 0.25s ease, box-shadow 0.25s ease;
+                display: block;
+            }
+
+            &:hover .platform-dropdown__img {
+                transform: translateY(-2px) scale(1.03);
+                filter: drop-shadow(0 8px 18px rgba(59, 130, 246, 0.45))
+                        drop-shadow(0 0 26px rgba(99, 102, 241, 0.4));
+                box-shadow: 0 6px 16px rgba(0, 0, 0, 0.25);
+            }
+
+            &.active .platform-dropdown__img {
+                transform: translateY(-1px) scale(1.02);
+                filter: drop-shadow(0 10px 22px rgba(59, 130, 246, 0.6))
+                        drop-shadow(0 0 30px rgba(99, 102, 241, 0.55))
+                        drop-shadow(0 0 40px rgba(147, 197, 253, 0.35));
+                animation: dropdownIconPulse 1s ease;
+            }
             /* postcss-bem-linter: ignore */
             &.active {
                 border: solid 2px var(--border-active);
