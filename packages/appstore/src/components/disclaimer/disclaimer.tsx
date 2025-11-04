@@ -158,9 +158,35 @@ const Disclaimer = () => {
                     data-testid='dt_traders_hub_disclaimer'
                     className={`disclaimer-content ${isMobile ? 'disclaimer-content--mobile' : 'disclaimer-content--desktop'}`}
                 >
-                    <Text align='left' className='disclaimer-text' size={isMobile ? 'xxxs' : 'xxs'}>
-                        <Localize i18n_default_text='Deriv offers complex derivatives, such as options and contracts for difference ("CFDs"). These products may not be suitable for all clients, and trading them puts you at risk. Please make sure that you understand the following risks before trading Deriv products: a) you may lose some or all of the money you invest in the trade, b) if your trade involves currency conversion, exchange rates will affect your profit and loss. You should never trade with borrowed money or with money that you cannot afford to lose.' />
-                    </Text>
+                    <div className='disclaimer-text'>
+                        <p>
+                            <Localize i18n_default_text='Deriv offers complex derivatives, such as options and contracts for difference ("CFDs"). These products may not be suitable for all clients, and trading them puts you at risk.' />
+                        </p>
+                        
+                        <p>
+                            <strong><Localize i18n_default_text='Please ensure you understand these risks:' /></strong>
+                        </p>
+                        
+                        <ul>
+                            <li>
+                                <Localize i18n_default_text='You may lose some or all of your invested capital' />
+                            </li>
+                            <li>
+                                <Localize i18n_default_text='Currency conversion affects your profit/loss' />
+                            </li>
+                            <li>
+                                <Localize i18n_default_text='Markets can be volatile and unpredictable' />
+                            </li>
+                        </ul>
+                        
+                        <div className='important-note'>
+                            <Localize i18n_default_text='<strong>Important:</strong> Never trade with borrowed money or funds you cannot afford to lose.' />
+                        </div>
+                        
+                        <p>
+                            <Localize i18n_default_text='By continuing, you confirm that you understand these risks and that you are aware that Deriv does not provide investment advice.' />
+                        </p>
+                    </div>
                     {(isMobile || isDesktop) && (
                         <div className="disclaimer-close" onClick={() => setIsExpanded(false)}>
                             <svg width="12" height="12" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
