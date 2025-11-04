@@ -58,17 +58,24 @@
 
 .disclaimer-header {
     width: 100%;
-    padding: 0.6rem 0.8rem;
-    background-color: #d9770699;
-    color: #000;
+    padding: 0.7rem 1rem;
+    background: linear-gradient(135deg, #d97706, #b45309);
+    color: white;
     cursor: pointer;
     display: flex;
     align-items: center;
     justify-content: center;
-    box-shadow: 0 -1px 6px rgba(0, 0, 0, 0.08);
+    box-shadow: 0 2px 12px rgba(217, 119, 6, 0.2);
+    border-radius: 6px;
+    transition: all 0.3s ease;
+    font-weight: 500;
+    letter-spacing: 0.3px;
+    text-shadow: 0 1px 1px rgba(0, 0, 0, 0.1);
     
     &:hover {
-        background-color: #b45309;
+        background: linear-gradient(135deg, #b45309, #92400e);
+        transform: translateY(-1px);
+        box-shadow: 0 4px 16px rgba(217, 119, 6, 0.25);
     }
     
     // Desktop styles
@@ -113,73 +120,149 @@
 }
 
 .disclaimer-content {
-    background: var(--icon-grey-background);
-    padding: 0.8rem;
-    max-height: 35vh;
+    background: #ffffff;
+    padding: 1.2rem 1rem 1rem;
+    max-height: 50vh;
     overflow-y: auto;
     position: relative;
+    border-radius: 8px;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.12);
+    border: 1px solid rgba(0, 0, 0, 0.08);
+    
+    // Custom scrollbar
+    &::-webkit-scrollbar {
+        width: 6px;
+    }
+    &::-webkit-scrollbar-track {
+        background: #f1f1f1;
+        border-radius: 10px;
+    }
+    &::-webkit-scrollbar-thumb {
+        background: #c1c1c1;
+        border-radius: 10px;
+        &:hover {
+            background: #a8a8a8;
+        }
+    }
     
     // Desktop styles
     @include desktop-screen {
-        padding: 0.6rem;
-        max-height: 30vh;
-        font-size: 0.8em;
-        line-height: 1.3;
+        padding: 1.2rem 1.2rem 1rem;
+        max-height: 60vh;
+        width: 300px;
     }
     
     // Mobile styles
     @include mobile-or-tablet-screen {
-        padding: 0.6rem;
-        max-height: 40vh;
+        padding: 1rem 1rem 0.8rem;
+        max-height: 50vh;
+        width: 280px;
     }
     
     &--mobile, &--desktop {
         position: relative;
-        width: 220px;
-        max-height: 30vh;
-        border-radius: 4px;
-        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.12);
-        margin-top: 3px;
+        max-height: 60vh;
+        margin-top: 8px;
         z-index: 10001;
+        background: linear-gradient(145deg, #ffffff, #f8f9fa);
+        border: 1px solid rgba(0, 0, 0, 0.05);
         
         .disclaimer-close {
             position: absolute;
-            top: 4px;
-            right: 4px;
-            width: 16px;
-            height: 16px;
+            top: 8px;
+            right: 8px;
+            width: 20px;
+            height: 20px;
             display: flex;
             align-items: center;
             justify-content: center;
             border-radius: 50%;
-            background: rgba(0, 0, 0, 0.1);
+            background: rgba(0, 0, 0, 0.05);
             cursor: pointer;
+            transition: all 0.2s ease;
+            border: none;
             
             &:hover {
-                background: rgba(0, 0, 0, 0.15);
+                background: rgba(0, 0, 0, 0.1);
+                transform: rotate(90deg);
+            }
+            
+            svg {
+                width: 12px;
+                height: 12px;
+                color: #6b7280;
             }
         }
     }
     
     &--desktop {
-        width: 230px;
+        width: 320px;
+        max-width: 90vw;
     }
 }
 
 .disclaimer-text {
-    line-height: 1.3;
-    padding-right: 6px;
+    line-height: 1.6;
+    color: #374151;
+    font-size: 0.8rem;
+    margin: 0;
+    padding: 0;
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, sans-serif;
+    
+    // Add some spacing between paragraphs
+    p {
+        margin: 0 0 0.8rem 0;
+        &:last-child {
+            margin-bottom: 0;
+        }
+    }
+    
+    // Style important parts
+    strong {
+        color: #1f2937;
+        font-weight: 600;
+    }
+    
+    // Add some styling for lists
+    ul {
+        padding-left: 1.2rem;
+        margin: 0.5rem 0 1rem;
+        
+        li {
+            margin-bottom: 0.4rem;
+            position: relative;
+            
+            &::marker {
+                color: #d97706;
+                font-weight: bold;
+            }
+        }
+    }
+    
+    // Add a subtle border and background for important notes
+    .important-note {
+        background-color: #fffbeb;
+        border-left: 3px solid #f59e0b;
+        padding: 0.7rem 1rem;
+        border-radius: 0 4px 4px 0;
+        margin: 1.2rem 0;
+        font-size: 0.9em;
+        
+        strong {
+            color: #b45309;
+        }
+    }
     
     // Desktop styles
     @include desktop-screen {
-        line-height: 1.3;
-        font-size: 0.75rem;
+        font-size: 0.95rem;
+        line-height: 1.7;
     }
     
     // Mobile styles
     @include mobile-or-tablet-screen {
-        font-size: 0.65rem;
-        padding-right: 12px;
+        font-size: 0.88rem;
+        line-height: 1.7;
     }
 }
 
