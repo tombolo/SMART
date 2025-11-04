@@ -87,23 +87,22 @@ const Disclaimer = () => {
 
     // Initialize position
     useEffect(() => {
-        if (containerRef.current) {
-            if (isMobile) {
-                const containerWidth = containerRef.current.offsetWidth;
-                setPosition({
-                    x: window.innerWidth - containerWidth - 10,
-                    y: window.innerHeight * 0.3
-                });
-            } else if (isDesktop) {
-                // Position at bottom right on desktop
-                const containerWidth = containerRef.current.offsetWidth;
-                setPosition({
-                    x: window.innerWidth - containerWidth - 10,
-                    y: window.innerHeight - 80
-                });
-            }
+    if (containerRef.current) {
+        const containerWidth = containerRef.current.offsetWidth;
+        if (isMobile) {
+            setPosition({
+                x: 10, // 10px from left
+                y: window.innerHeight * 0.3
+            });
+        } else if (isDesktop) {
+            setPosition({
+                x: 10, // 10px from left
+                y: window.innerHeight - 80 // bottom area
+            });
         }
-    }, [isMobile, isDesktop]);
+    }
+}, [isMobile, isDesktop]);
+
 
     // Add/remove mouse event listeners for desktop dragging
     useEffect(() => {
