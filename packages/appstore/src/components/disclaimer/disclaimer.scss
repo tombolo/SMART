@@ -14,12 +14,13 @@
     }
     
     // Desktop styles - make it draggable
+    // Desktop styles - make it draggable (moved to left side)
     @include desktop-screen {
         width: auto;
         max-width: 240px;
-        left: auto;
-        right: 10px;
-        bottom: 80px;
+        left: 30px;        // 👈 move to 10px from the left edge
+        right: auto;       // 👈 disable right anchoring
+        bottom: 240px;
         transform: none;
         border-radius: 4px;
         overflow: visible;
@@ -153,11 +154,15 @@
     }
     
     // Mobile styles
+    // Mobile styles (increased size for better readability)
     @include mobile-or-tablet-screen {
-        padding: 1rem 1rem 0.8rem;
-        max-height: 50vh;
-        width: 280px;
+        padding: 1.2rem 1.2rem 1rem;
+        width: 90vw;           // 👈 make it take 90% of the screen width
+        max-width: 480px;      // 👈 cap width for larger phones
+        max-height: 75vh;      // 👈 allow it to occupy more vertical space
+        border-radius: 10px;   // 👈 smoother rounded corners
     }
+
     
     &--mobile, &--desktop {
         position: relative;
