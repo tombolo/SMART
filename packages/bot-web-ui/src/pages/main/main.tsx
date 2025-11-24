@@ -244,44 +244,6 @@ const AppWrapper = observer(() => {
                             <Copytrading />
                         </div>
 
-                        <div
-                            label={
-                                <span style={{ color: '#ffffff', fontWeight: 'bold', display: 'inline-flex', alignItems: 'center', justifyContent: 'flex-start', fontSize: '12px' }}>
-                                    <MdSchema size={14} />
-                                    DP Tool
-                                </span>
-                            }
-                            id='id-dp-tool'
-                        >
-                            <Dptool />
-                        </div>
-
-                        <div
-                            label={
-                                <span style={{ color: '#ffffff', fontWeight: 'bold', display: 'inline-flex', alignItems: 'center', justifyContent: 'flex-start', fontSize: '12px' }}>
-                                    <MdGridOn size={14} />
-                                    Smart Edge
-                                </span>
-                            }
-                            id='id-smart-edge'
-                        >
-                            <Smartedge />
-                        </div>
-
-                        <div
-                            label={
-                                <span style={{ color: '#ffffff', fontWeight: 'bold', display: 'inline-flex', alignItems: 'center', justifyContent: 'flex-start', fontSize: '12px' }}>
-                                    <FaPuzzlePiece size={14} />
-                                    Signals
-                                </span>
-                            }
-                            id='id-signals'
-                        >
-                            <Signals />
-                        </div>
-
-
-
                     </Tabs>
                 </div>
             </div>
