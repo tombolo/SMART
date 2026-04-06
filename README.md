@@ -290,6 +290,6 @@ If preferable to use manual deployment, you can use [gh-pages](https://pages.git
 # BMBTRADERSTOOL
 # TTOOL
 # Masters
-# SMART TRADERS-MAIN
+# HURMY FX-MAIN
 # merrick-main
 # BURU

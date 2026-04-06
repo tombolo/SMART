@@ -403,7 +403,7 @@ const ToggleMenuDrawer = observer(({ platform_config }) => {
                                         onClick={toggleDrawer}
                                     >
                                         <Icon icon={TradersHubIcon} className='dc-menu-link__icon' />
-                                        <span className='dc-menu-link__text'>{localize('SMART TRADERS')}</span>
+                                        <span className='dc-menu-link__text'>{localize('HURMY FX')}</span>
                                     </a>
                                 </MobileDrawer.Item>
 
